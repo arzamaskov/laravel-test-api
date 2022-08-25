@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  application:
+    build: .
+    volumes:
+      - .:/app:delegated
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    command: ["make", "start-app"]
+
+  database:
+    image: mariadb
+    ports:
+        - "3307:3306"
+    volumes:
+        - ./mysql:/var/lib/mysql
+    environment:
+        MARIADB_DATABASE: laravel_api
+        MARIADB_ROOT_PASSWORD: root
+        MARIADB_ROOT_HOST: locahost
+        MARIADB_USER: admin
